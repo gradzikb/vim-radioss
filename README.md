@@ -16,23 +16,23 @@ It's just bunch of VIM scripts to speed up work with Radioss input file.
 ###Syntax highlighting
 With color syntax it's easier to navigate through a input file.
 
-![syntax](https://raw.github.com/wiki/gradzikb/vim-lsdyna/gifs/syntax.gif)
+![syntax](https://raw.github.com/wiki/gradzikb/vim-radioss/gifs/syntax.gif)
 
 ###Folding
 Node & element table folding, no more never ending scrolling!
 
-![folding](https://raw.github.com/wiki/gradzikb/vim-lsdyna/gifs/folding.gif)
+![folding](https://raw.github.com/wiki/gradzikb/vim-radioss/gifs/folding.gif)
 
 ###Keyword library
 With keyword library you can very quick add a new Radioss keyword into your model.
 
-![libraryb](https://raw.github.com/wiki/gradzikb/vim-lsdyna/gifs/library.gif)
+![libraryb](https://raw.github.com/wiki/gradzikb/vim-radioss/gifs/library.gif)
 
 
 ###Curve commands
 You can use commands to operate with function data directly in VIM.
 
-![commands](https://raw.github.com/wiki/gradzikb/vim-lsdyna/gifs/commands.gif)
+![commands](https://raw.github.com/wiki/gradzikb/vim-radioss/gifs/commands.gif)
 
 
 ###Commands, functions & mappings
@@ -45,7 +45,7 @@ The plugin has couple of great functions to make your work even faster:
 
 ##Documentation
 
-The plugin has decent [documentation](https://github.com/gradzikb/vim-lsdyna/blob/master/doc/lsdyna.txt) with detail explanation of all functions and examples.
+The plugin has decent [documentation](https://github.com/gradzikb/vim-radioss/blob/master/doc/radioss.txt) with detail explanation of all functions and examples.
 
 Please read the documentation before you start using the plugin.
 
