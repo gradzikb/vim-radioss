@@ -1,0 +1,15 @@
+/INTER/TYPE7/?inter_ID?
+?inter_title?
+# grnd_IDs  surf_IDm      Istf      Ithe      Igap                Ibag      Idel     Icurv      Iadm
+
+#          Fscalegap             Gap_max             Fpenmax
+
+#              Stmin               Stmax          %mesh_size               dtmin  Irem_gap   Irem_i2
+
+#              Stfac                Fric              Gapmin              Tstart               Tstop
+
+#      Ibc                        Inacti                Viss                Visf              Bumult
+
+#    Ifric    Ifiltr               Xfreq     Iform   sens_ID
+
+#

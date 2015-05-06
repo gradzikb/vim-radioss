@@ -1,0 +1,50 @@
+/PROP/SPR_GENE/?prop_ID?
+?prop_title?
+#               Mass                   I   skew_ID   sens_ID    Isflag     Ifail              Iequil
+
+#---------------------------------------------------------------------------------------------------
+#             KtensX              CtensX              AtensX              BtensX              DtensX
+
+#  fct_ID1    HtensX   fct_ID2   fct_ID3   fct_ID4                     lmintensX           lmaxtensX
+
+#             FtensX              EtensX         AscaletensX              HtensX
+
+#---------------------------------------------------------------------------------------------------
+#             KtensY              CtensY              AtensY              BtensY              DtensY
+
+#  fct_ID1    HtensY   fct_ID2   fct_ID3   fct_ID4                     lmintensY           lmaxtensY
+
+#             FtensY              EtensY         AscaletensY              HtensY
+
+#---------------------------------------------------------------------------------------------------
+#             KtensX              CtensX              AtensX              BtensX              DtensX
+
+#  fct_ID1    HtensX   fct_ID2   fct_ID3   fct_ID4                     lmintensX           lmaxtensX
+
+#             FtensX              EtensX         AscaletensX              HtensX
+
+#---------------------------------------------------------------------------------------------------
+#             KtorsX              CtorsX              AtorsX              BtorsX              DtorsX
+
+#  fct_ID1    HtorsX   fct_ID2   fct_ID3   fct_ID4                     lmintorsX           lmaxtorsX
+
+#             FtorsX              EtorsX         AscaletorsX              HtorsX
+
+#---------------------------------------------------------------------------------------------------
+#             KtorsY              CtorsY              AtorsY              BtorsY              DtorsY
+
+#  fct_ID1    HtorsY   fct_ID2   fct_ID3   fct_ID4                     lmintorsY           lmaxtorsY
+
+#             FtorsY              EtorsY         AscaletorsY              HtorsY
+
+#---------------------------------------------------------------------------------------------------
+#             KtorsX              CtorsX              AtorsX              BtorsX              DtorsX
+
+#  fct_ID1    HtorsX   fct_ID2   fct_ID3   fct_ID4                     lmintorsX           lmaxtorsX
+
+#             FtorsX              EtorsX         AscaletorsX              HtorsX
+
+#---------------------------------------------------------------------------------------------------
+#   Israte              Asrate
+
+#

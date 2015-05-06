@@ -1,0 +1,16 @@
+/GRNOD/GENE/1
+All_nodes
+#first_ID1  last_ID1 first_ID2  last_ID2 first_ID3  last_ID3 first_ID4  last_ID4 first_ID5  last_ID5
+         1 999999999
+#
+/GRAV/1
+Gravity_mmtonsec
+#  fct_IDt       Dir   skew_ID   sens_ID   grnd_ID                       Ascalex             Fscaley
+         1         Z                             1
+#
+/FUNCT/1
+Gravity_mmtonsec
+#         time [sec]      acc [mm/sec^2]
+                 0.0            9.81e+03
+             1.0e+06            9.81e+03
+#

@@ -1,0 +1,19 @@
+/MAT/FABR_A/?mat_ID?
+?mat_title?
+#                 ro
+
+#                 E1                  B1                  E2                  B2                Flex
+
+#                 G0                  Gt                  aT                                 sens_ID
+
+#                 Df                  Ds               Gfrot                               ZeroStress
+
+#       N1        N2                  S1                  S2               Flex1               Flex2
+
+#  fct_Id1                       Fscale1
+
+#  fct_Id2                       Fscale2
+
+#  fct_Id3                       Fscale3
+
+#

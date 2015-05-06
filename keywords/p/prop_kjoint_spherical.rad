@@ -1,0 +1,15 @@
+/PROP/KJOINT/?prop_ID?
+?prop_title?
+#     Type    Skflag
+         1
+# skew_ID1  skew_ID2                  Xk                  Cr
+
+#                 Kn                 Krx                 Kry                 Krz
+
+# fct_IDxr  fct_IDyr  fct_IDzr
+
+#                Crx                 Cry                 Crz
+
+#fct_IDxrc fct_IDyrc fct_IDzrc
+
+#

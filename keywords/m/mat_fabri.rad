@@ -1,0 +1,11 @@
+/MAT/FABRI/?mat_ID?
+?mat_title?
+#                 ro
+
+#                E11                 E22                 v12
+
+#                G12                 G23                 G31
+
+#                 Re                              ZeroStress           Isurf_Por   sens_ID
+
+#

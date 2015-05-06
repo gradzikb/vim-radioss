@@ -1,0 +1,1262 @@
+*radioss.txt*		For Vim version 7.4			Last change: 2015 May 03
+================================================================================
+                         ____           _ _                                    ~
+                        |  _ \ __ _  __| (_) ___  ___ ___                      ~
+                        | |_) / _` |/ _` | |/ _ \/ __/ __|                     ~
+                        |  _ < (_| | (_| | | (_) \__ \__ \                     ~
+                        |_| \_\__,_|\__,_|_|\___/|___/___/                     ~
+                                                                               ~
+                                            VIM Filetype Plugin                ~
+
+              -----------------------------------------------------
+              Author: Bartosz Gradzik (bartosz.gradzik@hotmail.com)
+              -----------------------------------------------------
+
+================================================================================
+CONTENTS
+
+    1. Introduction............................|radioss-introduction|
+    2. Quick start.............................|radioss-start|
+    3. Syntax highlighting.....................|radioss-syntax|
+    4. Folding.................................|radioss-folding|
+    5. Keyword library.........................|radioss-keywordLibrary|
+       5.1. Inserting keywords.................|radioss-insertKeyword|
+       5.2. Extending the library..............|radioss-extendLibrary|
+       5.3. Keywords templates.................|radioss-templates|
+    6. Mappings & functions....................|radioss-mappings|
+       6.1. Mappings list......................|radioss-mapList|
+       6.2. Comment/uncomment..................|radioss-comment|
+       6.3. Data line autoformating............|radioss-autoFormat|
+       6.4. Text objects.......................|radioss-textObject|
+    7. Commands................................|radioss-commands|
+       7.1. RadiossScale.......................|radioss-scale|
+       7.2. RadiossShift.......................|radioss-shift|
+       7.3. RadiossAddPoint....................|radioss-addPoint|
+       7.4. RadiossResample....................|radioss-resample|
+       7.5. RadiossSwap........................|radioss-swap|
+       7.6. RadiossReverse.....................|radioss-reverse|
+       7.7. Number format......................|radioss-numberFormat|
+    8. Include files...........................|radioss-includes|
+       8.1. File name completion...............|radioss-includeName|
+       8.2. Include jumps......................|radioss-includeJump|
+    9. Credits.................................|radioss-credits|
+   10. License.................................|radioss-license|
+   11. Bugs....................................|radioss-bugs|
+
+================================================================================
+1. Introduction                                            *radioss-introduction*
+
+It is VIM filetype plugin for starter/engine Radioss input file.
+
+Radioss is simulation software developed by Altair (www.altairhyperworks.com).
+The input file is used to store all model information.
+It is text file with block keywords which follow specific syntax rules.
+
+Radioss filetype plugin gives you:
+  - syntax highlighting
+  - folding
+  - keyword library
+  - useful mappings & functions
+  - useful commands
+
+
+================================================================================
+2. Quick start                                                    *radioss-start*
+
+To use filetype plugin in VIM you must add following lines into your vimrc file:
+>
+	filetype plugin on
+	syntax on
+<
+The plugin loads automatic for files with extension:
+  - *.rad
+
+If necessary the plugin can be load manually with command:
+>
+	:set filetype=radioss
+<
+To check if the plugin is loaded into VIM use:
+>
+	:set filetype?
+<
+VIM message should be:
+>
+	filetype=radioss
+<
+|radioss-commands| require VIM version which support float operations.
+You can test your VIM installation with command:
+>
+	echom has("float")
+<
+VIM prints 0 if float operations are not supported and 1 when they are.
+
+================================================================================
+3. Syntax highlighting                                           *radioss-syntax*
+
+Syntax highlighting supports:
+  - keyword line (start with "/")
+  - comment line (start with "#")
+  - title line
+  - data line (10x10 width field)
+
+================================================================================
+4. Folding                                                      *radioss-folding*
+
+All lines not started with "/" (keyword lines) or "#" (comment lines) are folded.
+Minimal number of lines to fold is four.
+
+In practise node/element lines and functions data points with more than four
+lines are folded. To break folding put empty comment line.
+
+================================================================================
+5. Keyword library                                       *radioss-keywordLibrary*
+
+With keyword library you can:
+- add standard Radioss keyword into your input file
+- use keywords with your predefined settings
+- build templates (group of keywords) to speed up your work
+- setup the same keyword for different system units
+- create your own simple material database
+
+--------------------------------------------------------------------------------
+5.1. Inserting keywords                                   *radioss-insertKeyword*
+
+In insert mode start typing keyword you want to and use <Ctrl-Tab>:
+NOTE: Keyword completion can be trigged with <Ctrl-x><Ctrl-u> as well.
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/pa<Ctrl-Tab>                                |
+    |#                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+VIM will show you list of available keywords with popup menu:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/pa                                          |
+    ||parameter/integer    |                      |
+    ||parameter/real       |                      |
+    ||part                 |                      |
+    |+--------------------++                      |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+Select keyword from list:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/pa                                          |
+    ||parameter/integer    |                      |
+    ||parameter/real       |                      |
+   >||part                 |<                     |
+    |+---------------------+                      |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+Accept selection with <CR>, <C-y>, <kEnter>:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/PART/?part_ID?                              |
+    |?part_title?                                 |
+    |#  prop_ID    mat_ID subset_ID               |
+    |         ?         ?                         |
+    |#                                            |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+Slash sign "/" at the beginning is not mandatory, also it does not matter
+if the keyword is lowercase or uppercase. All following examples work the same:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/pa<Ctrl-Tab>                                |
+    |/Pa<Ctrl-Tab>                                |
+    |/PA<Ctrl-Tab>                                |
+    |pa<Ctrl-Tab>                                 |
+    |Pa<Ctrl-Tab>                                 |
+    |PA<Ctrl-Tab>                                 |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+NOTE: To get list of all available keywords you can use:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/<Ctrl-Tab>                                  |
+    |<Ctrl-Tab>                                   |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+--------------------------------------------------------------------------------
+5.2. Extending the library                                *radioss-extendLibrary*
+
+The library does not have all Radioss keywords. If a keyword is missing you have
+to add it into the library. It is easy task and do not required any script
+modifications.
+
+Whole library is "keywords" directory. Inside are subdirectories with Radioss
+keywords. The subdirectories are organized in alphabetical order. Finally inside
+are *.rad files with keywords definitions.
+
+Keyword library structure:
+>
+	- radioss                  -> main plugin level
+	  - keywords               -> keyword library
+	    - _                    -> templates subdirectory
+	    - a
+	    - b
+	    - p                    -> p-keywords subdirectory
+	      - part.rad
+	      - prop_shell.rad     -> keyword definition
+	      - prop_solid.rad
+	      - ...
+	    - s                    -> s-keywords subdirectory
+	      - spring.rad
+	      - surf_part.rad      -> keyword definition
+	      - surf_prop.rad
+	      - ...
+	    - ...
+<
+To add a new keyword into the library:
+1. Create a new *.rad file with all lines necessary to define new keyword
+2. Copy file to correct subdirectory
+
+There are couple rules you have to keep in mind:
+- file names must be lowercase
+- do not use slash "/" and white signs (space bar) in the name
+- file names must start with subdirectory letter
+- *.rad extension is mandatory for all files
+
+NOTE: Keyword library are initialized once per VIM session.
+      New keyword will be available after VIM session restart.
+
+Default location of "keywords" folder you can check with command:
+>
+	:echom g:radiossKeyLibPath
+<
+Location of keyword library can be change, it lets use one library among many
+users.
+
+To define location of the keyword library put for all users in vimrc:
+>
+	let g:radiossKeyLibPath = "C:\\radioss\\glbKeyLib\\"
+	let g:radiossKeyLibPath = "/home/radioss/glbKeyLib/"
+<
+--------------------------------------------------------------------------------
+5.3. Keywords templates                                       *radioss-templates*
+
+Keyword files does not have to include only one "empty" Radioss keyword.
+You can create your own keyword template.
+
+Keyword templates types:
+1. Predefined keyword
+   - a keyword with predefined values
+     - gravity load for different system unit
+     - contact definition with non-default values
+   - are stored in the library subdirectories like any other keywords
+   - example: grav_z_mmkgms.rad
+2. Template
+   - group of keywords you are using often
+   - are stored in "_" subdirectory in the library
+   - template file names must start with "_"
+   - to insert a template from the library use _<Ctrl-Tab>
+   - example: _starter_mmkgms_template.rad
+
+================================================================================
+6. Mappings                                                    *radioss-mappings*
+
+The plugin gives you a lot of useful mappings and functions to work with
+Radioss input file.
+
+--------------------------------------------------------------------------------
+6.1. Mappings list                                               *radioss-mapList*
+
+]]       : jump to next keyword
+[[       : jump to previous keyword
+#i       : abbreviation for #include
+#e       : abbreviation for #enddata
+#r       : abbreviation for #RADIOSS Starter
+3<Space> : put "#" at the beginning of the line (works only if "3" is in 1st col)
+<ll><ll> : autoformating function
+<Alt-C>  : comment/uncomment line
+<Ctrl-C> : comment/uncomment line
+<ll>c    : put empty comment line below
+<ll>C    : put empty comment line above
+<ll>0    : separator with title below
+<ll>1    : separator line (type 1) below
+<ll>2    : separator line (type 2) below
+<ll>3    : separator line (type 3) below
+<ll>)    : separator with title above (is like <ll>0 with <Shift>)
+<ll>!    : separator line (type 1) above (is like <ll>1 with <Shift>)
+<ll>@    : separator line (type 2) above (is like <ll>2 with <Shift>)
+<ll>#    : separator line (type 3) above (is like <ll>3 with <Shift>)
+
+<ll> is <localleader> key in VIM. By default it is backslash "\".
+
+--------------------------------------------------------------------------------
+6.2. Comment/uncomment                                          *radioss-comment*
+
+The function is used to comment/uncomment line/lines in Radioss input file.
+Function is mapped with <ALT-c> or <Ctrl-c>.
+
+If selected line starts with "#" it will be uncommented, if the line does not
+start with "#" it will be commented. If you selected more than one line
+comment/uncomment will be performed according to first line from selection.
+
+Select lines you want to comment:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+   >|/FUNCT/100                                   |<
+   >|Load                                         |<
+   >|#                  x                   y     |<
+   >|                 0.0                 0.0     |<
+   >|                 1.0                 1.0     |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+Use <Alt-c>:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |#/FUNCT/100                                  |
+    |#Load                                        |
+    |##                  x                   y    |
+    |#                 0.0                 0.0    |
+    |#                 1.0                 1.0    |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+To uncomment select the same lines and use <Alt-c> once again.
+
+--------------------------------------------------------------------------------
+6.3. Data line autoformating                                 *radioss-autoFormat*
+
+The plugin has simple autoformating function. The function is trigged with
+<ll><ll> mapping ("\\" for default VIM settings). The function try to guess
+under what keyword is and format data line according to syntax rules.
+
+Example of use:
+
+Position of part ids in /SURF is incorrect, put cursor at the data line:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/SURF/PART/100                               |
+    |Contact_parts                                |
+    |# item_ID1  item_ID2  item_ID3  item_ID4     |
+   >| 1 2 3                                       |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+Run autoformating function <ll><ll> to adjust them in 10 wide columns:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/SURF/PART/100                               |
+    |Contact_parts                                |
+    |# item_ID1  item_ID2  item_ID3  item_ID4     |
+    |         1         2         3               |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+NOTE: Coma "," is used as special sign (not true under /FUNCT).
+      Autoformating function insert empty 10 wide column for each coma.
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/SURF/PART/100                               |
+    |Contact_parts                                |
+    |# item_ID1  item_ID2  item_ID3  item_ID4     |
+   >| , , 3                                       |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/SURF/PART/100                               |
+    |Contact_parts                                |
+    |# item_ID1  item_ID2  item_ID3  item_ID4     |
+    |                             3               |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+You can use prefix for coma as well:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/SURF/PART/100                               |
+    |Contact_parts                                |
+    |# item_ID1  item_ID2  item_ID3  item_ID4     |
+   >| 3, 3                                        |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/SURF/PART/100                               |
+    |Contact_parts                                |
+    |# item_ID1  item_ID2  item_ID3  item_ID4     |
+    |                                       3     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+Autoformating functions is very useful to format /FUNCT data lines from
+third part softwares.
+
+Make visual line selection for data lines:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >| 0.0 0.0                                     |<
+   >| 1.0 1.0                                     |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+Use <ll><ll> to format x and y values to correct positions:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                 1.0                 1.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+Autoformating function supports "," under /FUNCT as separator.  You can
+have more than one point in line. In next example *AMPLITUDE data points from
+Abaqus will be converted to Radioss /FUNCT format.
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >| 0.0, 0.0, 1.0, 1.0, 2.0, 2.0, 3.0, 3.0      |<
+   >| 4.0, 4.0, 5.0, 5.0, 6.0, 6.0, 7.0, 7.0      |<
+   >| 8.0, 8.0                                    |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+Use <ll><ll> with selected lines:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                 1.0                 1.0     |
+    |                 2.0                 2.0     |
+    |                 3.0                 3.0     |
+    |                 4.0                 4.0     |
+    |                 5.0                 5.0     |
+    |                 6.0                 6.0     |
+    |                 7.0                 7.0     |
+    |                 8.0                 8.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+--------------------------------------------------------------------------------
+6.4. Text objects                                            *radioss-textObject*
+
+Radioss filetype plugin gives you two new VIM text objects. If you are not
+familiar with VIM text objects see ":help text-objects".
+
+The plugin text-objects:
+- <ik> : insert keyword
+- <ak> : around keyword
+
+Both text object work the same way! There is no distinguish like in <aw>/<iw>.
+You can use them with other VIM commands like <d>, <y>, <v>.
+
+Examples of use:
+
+Put cursor at any keyword line:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |#-- Start load curve --                      |
+    |/FUNCT/100                                   |
+   >|Load                                         |<
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                 1.0                 1.0     |
+    |#-- End load curve --                        |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+Use <dak>/<dik> to delete whole /FUNCT keyword:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |#-- Start load curve --                      |
+    |#-- End load curve --                        |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+NOTE: You can think about <dak> as "delete all keyword".
+
+Put cursor at any keyword line:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/PART/1                                      |
+    |Support                                      |
+    |#  prop_ID    mat_ID subset_ID               |
+   >|         1         1                         |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+Use <yak>/<yik> to yank /PART keyword, now you can go to any line and use <p> normal
+command to put copy of the keyword in a new place you want:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/PART/1                                      |
+    |Support                                      |
+    |#  prop_ID    mat_ID subset_ID               |
+    |         1         1                         |
+    |#                                            |
+    |/PART/1                                      |
+    |Support                                      |
+    |#  prop_ID    mat_ID subset_ID               |
+    |         1         1                         |
+    |#                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+Put cursor at any keyword line:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+   >|/PART/1                                      |<
+    |Support                                      |
+    |#  prop_ID    mat_ID subset_ID               |
+    |         1         1                         |
+    |#                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+Use <vak>/<vik> for visual selection of the keyword.
+Next you can use <Alt-c> to comment whole keyword:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |#/PART/1                                     |
+    |#Support                                     |
+    |##  prop_ID    mat_ID subset_ID              |
+    |#         1         1                        |
+    |#                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+================================================================================
+7. Commands                                                   *radioss-commands*
+
+Radioss filetype plugin commands list:
+
+- :RadiossScale    - scale x and/or y data
+- :RadiossShift    - shift x and/or y data
+- :RadiossAddpoint - used to extend a function
+- :RadiossResample - resample function
+- :RadiossSwap     - swap x & y column
+- :RadiossReverse  - reverse function points
+
+--------------------------------------------------------------------------------
+7.1. RadiossScale command                                          *radioss-scale*
+
+Description:
+Scale x and/or y value on the function.
+
+Syntax:
+:RadiossScale x_sf y_sf
+
+Arguments:
+x_sf - scaling factor for x data (default value 1.0)
+y_sf - scaling factor for y data (default value 1.0)
+
+Example of use:
+
+Make visual selection line with data lines:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >|                 0.0                 0.0     |<
+   >|                 1.0                 1.0     |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossScale 10.0 5.0
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                10.0                 5.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+--------------------------------------------------------------------------------
+7.2. RadiossShift command                                         *radioss-shift*
+
+Description:
+Shift x and/or y values on the function.
+
+Syntax:
+:RadiossShift x_shift y_shift
+
+Arguments:
+x_shift - offset value for x data (default value 0.0)
+y_shift - offset value for y data (default value 0.0)
+
+Example of use:
+
+Make visual selection line with data lines:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >|                 0.0                 0.0     |<
+   >|                 1.0                 1.0     |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossShift 10.0 5.0
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                10.0                 5.0     |
+    |                11.0                 6.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+--------------------------------------------------------------------------------
+7.3. RadiossAddPoint command                                    *radioss-addPoint*
+
+Description:
+RadiossAddPoint inserts a new point for x user value. For points outside range
+new y value is linear extrapolated base on two first or two last points. For
+points inside new y value is linear interpolated base on the nearest points.
+
+Synatx:
+:RadiossAddPoint x
+
+Arguments:
+x - user x value for new point
+
+Example of use:
+
+Make visual selection line with data lines:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >|                 0.0                 0.0     |<
+   >|                 2.0                 4.0     |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossAddPoint -1.0
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                -1.0                -2.0     |
+    |                 0.0                 0.0     |
+    |                 2.0                 4.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossAddPoint 0.5
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                 0.5                 1.0     |
+    |                 2.0                 4.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossAddPoint 4.0
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                 2.0                 4.0     |
+    |                 4.0                 8.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+--------------------------------------------------------------------------------
+7.4. RadiossResample command                                    *radioss-resample*
+
+Description:
+Command allow you to resample the function with new number of points.
+
+Synatx:
+:RadiossResample -i incr
+:RadiossResample -p nump
+
+Arguments:
+incr - increment
+nump - number of points
+
+Example of use:
+
+Make visual selection line with data lines:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >|                 0.0                 0.0     |<
+   >|                 1.0                 1.0     |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossResample -i 0.2
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                 0.2                 0.2     |
+    |                 0.4                 0.4     |
+    |                 0.6                 0.6     |
+    |                 0.8                 0.8     |
+    |                 1.0                 1.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossResample -p 6
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                 0.2                 0.2     |
+    |                 0.4                 0.4     |
+    |                 0.6                 0.6     |
+    |                 0.8                 0.8     |
+    |                 1.0                 1.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+--------------------------------------------------------------------------------
+7.5. RadiossSwap command                                            *radioss-swap*
+
+Description:
+Swap x and y columns.
+
+Syntax:
+:RadiossSwap
+
+Example of use:
+
+Make visual selection line with data lines:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >|                 0.0                 0.0     |<
+   >|              1000.0                 1.0     |<
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossSwap
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                 1.0              1000.0     |
+    |#                                            |
+    |~                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+--------------------------------------------------------------------------------
+7.6. RadiossReverse command                                      *radioss-reverse*
+
+Description:
+Reverse order of function data points.
+
+Syntax:
+:RadiossReverse
+
+Example of use:
+
+Make visual selection line with data lines:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >|                 0.0                 0.0     |<
+   >|                 2.0                 2.0     |<
+   >|                 4.0                 4.0     |<
+   >|                 6.0                 6.0     |<
+   >|                 8.0                 8.0     |<
+   >|                10.0                10.0     |<
+    |#                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossReverse
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                10.0                10.0     |
+    |                 8.0                 8.0     |
+    |                 6.0                 6.0     |
+    |                 4.0                 4.0     |
+    |                 2.0                 2.0     |
+    |                 0.0                 0.0     |
+    |#                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+--------------------------------------------------------------------------------
+7.7. Number format                                         *radioss-numberFormat*
+
+Function commands use number format base on first x value.
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >|            0.00e+00                 0.0     |<
+   >|                 1.0                 1.0     |<
+    |#                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:radiossScale 10.0 5.0
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |            0.00e+00            0.00e+00     |
+    |            1.00e+01            5.00e+00     |
+    |#                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+NOTE: If you do not want change curve values but only format, change
+      first x value and use RadiossScale command with default parameters.
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >|          0.0000e+00                 0.0     |<
+   >|                 1.0                 1.0     |<
+    |#                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossScale
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |          0.0000e+00          0.0000e+00     |
+    |          1.0000e+00          1.0000e+00     |
+    |#                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+NOTE: Always keep in mind that format of first x-value is important.
+      In some situations you can loose some data during curve operations.
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+   >|                 0.0                 0.0     |<
+   >|               0.001               0.005     |<
+    |#                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+>
+	:RadiossShift 0.01
+<
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |/FUNCT/100                                   |
+    |Load                                         |
+    |#                  x                   y     |
+    |                 0.0                 0.0     |
+    |                 0.0                 0.0     |
+    |#                                            |
+    |command-line=================================+
+    |                                             |
+    +---------------------------------------------+
+
+As you can see after shifting data precision have been lost since first x value
+has only one decimal place.
+
+================================================================================
+8. Include files                                               *radioss-includes*
+
+VIM has a lot of options to work with many files. You can use them
+to work with Radioss include files if your model use them.
+
+--------------------------------------------------------------------------------
+8.1. File name completion                                   *radioss-includeName*
+
+With VIM build-in file completion <Ctrl-x><Ctrl-f> command you can in easy way
+add a new include file to your master deck.
+
+Use <Ctrl-x><Ctrl-f> to get list of files in include directory:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |#include ../OO_INC<Ctrl-x><Ctrl-f>           |
+    |#                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+Select include file:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |#include ../OO_INC                           |
+    |#      | ../00_INC/include_A.inc  |          |
+    |~      | ../00_INC/include_B.inc  |          |
+    |~     >| ../00_INC/include_C.inc  |<         |
+    |~      | ../00_INC/include_D.inc  |          |
+    |~      +--------------------------+          |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |#include ../OO_INC/include_C.inc             |
+    |#                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+--------------------------------------------------------------------------------
+8.2. Include jumps                                          *radioss-includeJump*
+
+To jump from master deck into include file you can use <gf> or <gF> commands.
+
+Jump commands:
+- <gf> : open include file in current window
+- <gF> : open include file in new window
+
+NOTE gf is abbreviation from "go file"
+
+Put cursor on the line with include keyword:
+
+    +---------------------------------------------+
+    |radioss_0000.rad=============================|
+    |#                                            |
+    |#include ../00_INC/include_A.inc             |
+   >|#include ../00_INC/include_B.inc             |<
+    |#include ../00_INC/include_C.inc             |
+    |#include ../00_INC/include_D.inc             |
+    |#                                            |
+    |~                                            |
+    |~                                            |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+Use <gf> to jump:
+
+    +---------------------------------------------+
+    |include_B.inc================================|
+    |#                                            |
+    |# include B                                  |
+    |#                                            |
+    |/NODE                                        |
+    |# node_ID   xc   yc   zc                     |
+    |     1000  0.0  0.0  0.0                     |
+    | ...                                         |
+    |/SHELL/1000                                  |
+    |# shell_ID n_ID1 n_ID2 n_ID3 n_ID4           |
+    |      1000  1001  1002  1003  1004           |
+    | ...                                         |
+    |#enddata                                     |
+    |~                                            |
+    |command-line=================================|
+    |                                             |
+    +---------------------------------------------+
+
+================================================================================
+9. Credits                                                     *radioss-credits*
+
+ keyword library       Bartosz Gradzik
+ mappings              Bartosz Gradzik
+ functions             Bartosz Gradzik
+ curve commands        Bartosz Gradzik
+ syntax highlighting   Bartosz Gradzik / Jakub Pajerski
+ folding               Bartosz Gradzik
+
+================================================================================
+10. License                                                    *radioss-license*
+
+Radioss filetype plugin for VIM
+Copyright (C) 2015 Bartosz Gradzik (bartosz.gradzik@hotmail.com)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+================================================================================
+11. Bugs                                                           *radioss-bugs*
+
+It's not a bug is a feature ;-)
+
+Found a bug? Please let me know at bartosz.gradzik@hotmail.com.
+
+Bugs list:
+----------
+
+================================================================================
+vim:tw=80:ts=4:ft=help:norl:

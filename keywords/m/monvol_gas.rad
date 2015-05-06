@@ -1,0 +1,21 @@
+/MONVOL/GAS/?monvol_ID?
+?monvol_title?
+#surf_IDex
+         ?
+#            AscaleT             AscaleP             AscaleS             AscaleA             AscaleD
+
+#                  y                   u
+
+#               Pext                Pini                Pmax                Vinc                Mini
+
+#    Nvent
+
+#---------------------------------------------------------------------------------------------------
+# surf_IDv               Avent                      Ideleted
+
+#              Tvent                Pdef               tPdef
+
+#  fct_IDt   fct_IDp   fct_IDA                       Fscalet             FscaleP             FscaleA
+
+#---------------------------------------------------------------------------------------------------
+#

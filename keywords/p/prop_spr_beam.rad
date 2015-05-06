@@ -1,0 +1,62 @@
+/PROP/SPR_BEAM/?id?
+?title?
+$               Mass             Inertia   skew_ID   sens_ID    Isflag     Ifail     Ileng    Ifail2
+
+$---------------------------------------------------------------------------------------------------
+$              KTens               CTens               ATens               BTens               DTens
+
+$  fct_ID1     HTens   fct_ID2   fct_ID3                           delta_minTens       delta_maxTens
+
+$              FTens               ETens          AscaleTens
+
+$---------------------------------------------------------------------------------------------------
+$            KyShear             CyShear             AyShear             ByShear             DyShear
+
+$  fct_ID1   HyShear   fct_ID2   fct_ID3                         delta_minyShear     delta_maxyShear
+
+$            FyShear             EyShear        AscaleyShear
+
+$---------------------------------------------------------------------------------------------------
+$            KzShear             CzShear             AzShear             BzShear             DzShear
+
+$  fct_ID1   HzShear   fct_ID2   fct_ID3                         delta_minzShear     delta_maxzShear
+
+$            FzShear             EzShear        AscalezShear
+
+$---------------------------------------------------------------------------------------------------
+$              KTors               CTors               ATors               BTors               DTors
+
+$  fct_ID1     HTors   fct_ID2   fct_ID3                           delta_minTors       delta_maxTors
+
+$              FTors               ETors          AscaleTors
+
+$---------------------------------------------------------------------------------------------------
+$             KyBend              CyBend              AyBend              ByBend              DyBend
+
+$  fct_ID1    HyBend   fct_ID2   fct_ID3                          delta_minyBend      delta_maxyBend
+
+$             FyBend              EyBend         AscaleyBend
+
+$---------------------------------------------------------------------------------------------------
+$             KzBend              CzBend              AzBend              BzBend              DzBend
+
+$  fct_ID1    HzBend   fct_ID2   fct_ID3                          delta_minzBend      delta_maxzBend
+
+$             FzBend              EzBend         AscalezBend
+
+$---------------------------------------------------------------------------------------------------
+$                 v0              omega0
+
+$              cTens               nTens           alphaTens            betaTens
+
+$            cyShear             nyShear         alphayShear          betayShear
+
+$            czShear             nzShear         alphazShear          betazShear
+
+$              cTors               nTors           alphaTors            betaTors
+
+$             cyBend              nyBend          alphayBend           betayBend
+
+$             czBend              nzBend          alphazBend           betazBend
+
+$

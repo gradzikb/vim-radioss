@@ -1,0 +1,44 @@
+/PROP/SPR_AXI/?prop_ID?
+?prop_title?
+#               Mass             Inertia   skew_ID   sens_ID    Isflag     Ifail     Ileng    Ifail2
+
+#---------------------------------------------------------------------------------------------------
+#              Ktens               Ctens               Atens               Btens               Dtens
+
+#  fct_ID1     Htens   fct_ID2   fct_ID3               Ftens            lmintens            lmaxtens
+
+#         Ascaletens               Etens   fct_ID4               Htens
+
+#---------------------------------------------------------------------------------------------------
+#             Kshear              Cshear              Ashear              Bshear              Dshear
+
+#  fct_ID1    Hshear   fct_ID2   fct_ID3              Fshear           lminshear           lmaxshear
+
+#        Ascaleshear              Eshear   fct_ID4              Hshear
+
+#---------------------------------------------------------------------------------------------------
+#              Ktors               Ctors               Ators               Btors               Dtors
+
+#  fct_ID1     Htors   fct_ID2   fct_ID3               Ftors            lmintors            lmaxtors
+
+#         Ascaletors               Etors   fct_ID4               Htors
+
+#---------------------------------------------------------------------------------------------------
+#              Kbend               Cbend               Abend               Bbend               Dbend
+
+#  fct_ID1     Hbend   fct_ID2   fct_ID3               Fbend            lminbend            lmaxbend
+
+#         Ascalebend               Ebend   fct_ID4               Hbend
+
+#---------------------------------------------------------------------------------------------------
+#                 v0                  w0
+
+#                 c1                  n1                  a1                  b1
+
+#              cshear             nshear              ashear              bshear
+
+#               ctors              ntors               ators               btors
+
+#               cbend              nbend               abend               bbend
+
+#
