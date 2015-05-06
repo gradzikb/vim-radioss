@@ -1,11 +1,11 @@
-#vim-lsdyna
-[VIM](http://www.vim.org/) filetype plugin for [Ls-Dyna](http://www.lstc.com) FE solver.
+#vim-radioss
+[VIM](http://www.vim.org/) filetype plugin for [Radioss](http://www.altairhyperworks.com/Product,51,RADIOSS.aspx) FE solver.
 
 ##Introduction
 
-What is Ls-Dyna filetype plugin?
+What is Radioss filetype plugin?
 
-It's just bunch of VIM scripts to speed up work with Ls-Dyna keyword file.
+It's just bunch of VIM scripts to speed up work with Radioss input file.
 
 ##Main features
 - Syntax highlighting
@@ -14,7 +14,7 @@ It's just bunch of VIM scripts to speed up work with Ls-Dyna keyword file.
 - Useful commands, functions and mappings
 
 ###Syntax highlighting
-With color syntax it's easier to navigate through a keyword file.
+With color syntax it's easier to navigate through a input file.
 
 ![syntax](https://raw.github.com/wiki/gradzikb/vim-lsdyna/gifs/syntax.gif)
 
@@ -24,13 +24,13 @@ Node & element table folding, no more never ending scrolling!
 ![folding](https://raw.github.com/wiki/gradzikb/vim-lsdyna/gifs/folding.gif)
 
 ###Keyword library
-With keyword library you can very quick add a new Ls-Dyna keyword into your model.
+With keyword library you can very quick add a new Radioss keyword into your model.
 
 ![libraryb](https://raw.github.com/wiki/gradzikb/vim-lsdyna/gifs/library.gif)
 
 
 ###Curve commands
-You can use commands to operate with curve data directly in VIM.
+You can use commands to operate with function data directly in VIM.
 
 ![commands](https://raw.github.com/wiki/gradzikb/vim-lsdyna/gifs/commands.gif)
 
@@ -41,11 +41,7 @@ The plugin has couple of great functions to make your work even faster:
 - comment/uncomment
 - data line autoformating
 - keyword text objects
-- include path
 
-##Example
-
-The plugin in action you can see [here](https://www.youtube.com/watch?v=5a62UACiBA0&feature=youtu.be).
 
 ##Documentation
 
@@ -53,7 +49,7 @@ The plugin has decent [documentation](https://github.com/gradzikb/vim-lsdyna/blo
 
 Please read the documentation before you start using the plugin.
 
-`:help lsdyna`
+`:help radioss`
 
 ##Installation
 
@@ -61,11 +57,11 @@ Please read the documentation before you start using the plugin.
 
 ```
 cd ~/.vim/bundle
-git clone https://github.com/gradzikb/vim-lsdyna
+git clone https://github.com/gradzikb/vim-radioss
 ```
 
 ##License
 
 The GNU General Public License
 
-Copyright &copy; 2014 Bartosz Gradzik
+Copyright &copy; 2015 Bartosz Gradzik
