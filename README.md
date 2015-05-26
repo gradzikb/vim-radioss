@@ -29,7 +29,7 @@ With keyword library you can very quick add a new Radioss keyword into your mode
 ![libraryb](https://raw.github.com/wiki/gradzikb/vim-radioss/gifs/library.gif)
 
 
-###Curve commands
+###Function commands
 You can use commands to operate with function data directly in VIM.
 
 ![commands](https://raw.github.com/wiki/gradzikb/vim-radioss/gifs/commands.gif)
