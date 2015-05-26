@@ -54,14 +54,14 @@ setlocal textwidth=100
 "-------------------------------------------------------------------------------
 " VIM loads radiance syntax file from default installation for *.rad files
 " and overwrites default iskeyword settings. Here I am reseting them.
-setlocal iskeyword=@,48-57,_,128-167,224-235
+setlocal iskeyword&
 
 "-------------------------------------------------------------------------------
 "    FOLDING
 "-------------------------------------------------------------------------------
 
-" Fold all lines that do not begin with * (keyword),# and $ (comment)
-setlocal foldexpr=getline(v:lnum)!~?\"\^[*#$]\"
+" Fold all lines that do not begin with / (keyword),# and $ (comment)
+setlocal foldexpr=getline(v:lnum)!~?\"\^[/#$]\"
 setlocal foldmethod=expr
 setlocal foldminlines=4
 
