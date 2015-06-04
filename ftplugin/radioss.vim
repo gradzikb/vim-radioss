@@ -52,11 +52,6 @@ setlocal virtualedit=all
 setlocal textwidth=100
 
 "-------------------------------------------------------------------------------
-" VIM loads radiance syntax file from default installation for *.rad files
-" and overwrites default iskeyword settings. Here I am reseting them.
-setlocal iskeyword&
-
-"-------------------------------------------------------------------------------
 "    FOLDING
 "-------------------------------------------------------------------------------
 
@@ -137,6 +132,14 @@ augroup radioss
   autocmd WinEnter * cd %:p:h
   autocmd TabEnter * cd %:p:h
   autocmd BufWrite * set ff=unix
+
+  " VIM loads radiance syntax file from default installation for *.rad files
+  " and overwrites default iskeyword settings. Here I am reseting them.
+  autocmd BufNewFile * setlocal iskeyword&
+  autocmd BufReadPost * setlocal iskeyword&
+  autocmd WinEnter * setlocal iskeyword&
+  autocmd TabEnter * setlocal iskeyword&
+
 augroup END
 
 "-------------------------------------------------------------------------------
