@@ -17,11 +17,11 @@
 #             FtensY              EtensY         AscaletensY              HtensY
 
 #---------------------------------------------------------------------------------------------------
-#             KtensX              CtensX              AtensX              BtensX              DtensX
+#             KtensZ              CtensZ              AtensZ              BtensZ              DtensZ
 
-#  fct_ID1    HtensX   fct_ID2   fct_ID3   fct_ID4                     lmintensX           lmaxtensX
+#  fct_ID1    HtensZ   fct_ID2   fct_ID3   fct_ID4                     lmintensZ           lmaxtensZ
 
-#             FtensX              EtensX         AscaletensX              HtensX
+#             FtensZ              EtensZ         AscaletensZ              HtensZ
 
 #---------------------------------------------------------------------------------------------------
 #             KtorsX              CtorsX              AtorsX              BtorsX              DtorsX
@@ -38,11 +38,11 @@
 #             FtorsY              EtorsY         AscaletorsY              HtorsY
 
 #---------------------------------------------------------------------------------------------------
-#             KtorsX              CtorsX              AtorsX              BtorsX              DtorsX
+#             KtorsZ              CtorsZ              AtorsZ              BtorsZ              DtorsZ
 
-#  fct_ID1    HtorsX   fct_ID2   fct_ID3   fct_ID4                     lmintorsX           lmaxtorsX
+#  fct_ID1    HtorsZ   fct_ID2   fct_ID3   fct_ID4                     lmintorsZ           lmaxtorsZ
 
-#             FtorsX              EtorsX         AscaletorsX              HtorsX
+#             FtorsZ              EtorsZ         AscaletorsZ              HtorsZ
 
 #---------------------------------------------------------------------------------------------------
 #   Israte              Asrate

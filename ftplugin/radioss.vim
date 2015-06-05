@@ -9,6 +9,8 @@
 "
 " History of change:
 "
+" v1.0.1
+"   - function Comment updated to support #include keyword
 " v1.0.0
 "   - initial version
 "
@@ -153,10 +155,24 @@ noremap <silent><buffer> <C-c> :call <SID>Comment()<CR>j
 
 function! <SID>Comment() range
 
-  if getline(a:firstline) =~? "^#"
-    silent execute a:firstline . ',' . a:lastline . 's/^\#//'
+  " get firstline from selection
+  let line = getline(a:firstline)
+
+  " include line
+  if line =~? "^#include"
+    if line =~? "^##"
+      silent execute a:firstline . ',' . a:lastline . 's/^\#//'
+    else
+      silent execute a:firstline . ',' . a:lastline . 's/^/#/'
+    endif
+
+  " comment line
   else
-    silent execute a:firstline . ',' . a:lastline . 's/^/#/'
+    if line =~? "^#"
+      silent execute a:firstline . ',' . a:lastline . 's/^\#//'
+    else
+      silent execute a:firstline . ',' . a:lastline . 's/^/#/'
+    endif
   endif
 
 endfunction

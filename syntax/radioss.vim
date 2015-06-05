@@ -5,9 +5,12 @@
 " Language:     Radioss FE solver input file
 " Maintainer:   Bartosz Gradzik (bartosz.gradzik@hotmail.com)
 " Contribution: Jakub Pajerski
-" Last Change:  1st of March 2015
+" Last Change:  5st of June 2015
 "
 " History of change:
+"
+" v1.0.1
+"   - highlighting for #include and #enddata added
 "
 " v1.0.0
 "   - initial version
@@ -23,10 +26,13 @@ let b:current_syntax = "radioss"
 "    Items shared among keywords
 "-------------------------------------------------------------------------------
 
-syntax match RadiossComment '^[$#].*$'
+setlocal iskeyword+=#
+syntax keyword RadiossItems #include #enddata contained
+syntax match RadiossComment '^[$#].*$' contains=RadiossItems
 syntax match RadiossTitle '^\(\a\|?\|\.\).*$' contained
 syntax match RadiossKeyword '^\/\(\a\|/\).*$' contained
 
+highlight default link RadiossItems Statement
 highlight default link RadiossComment Comment
 highlight default link RadiossKeyword Statement
 highlight default link RadiossTitle Identifier
